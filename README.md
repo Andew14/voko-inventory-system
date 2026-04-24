@@ -1,59 +1,94 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# VOKO - Sistema de Gestión de Inventarios 📦
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+![Laravel](https://img.shields.io/badge/Laravel-11-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
+![PHP](https://img.shields.io/badge/PHP-8.2-777BB4?style=for-the-badge&logo=php&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-%2338B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![SQLite Database](https://img.shields.io/badge/Database-SQLite-4479A1?style=for-the-badge&logo=sqlite&logoColor=white)
 
-## About Laravel
+VOKO es un sistema avanzado de control de inventarios desarrollado para la empresa "KINETARIS". Permite el flujo completo de productos, la gestión del control de stocks mediante validación concurrente, perfiles de seguridad, panel de estadísticas en tiempo real y registro histórico de movimientos de bodegas (Entradas y Salidas).
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🚀 Requisitos Previos
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Asegúrate de tener instalados los siguientes programas en tu entorno:
+- **PHP** >= 8.2 (Verifica ejecutando `php -v`)
+- **Composer** (Para descargar las librerías de PHP)
+- **Git** (Para descargar el repositorio)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 🛠️ Instalación y Configuración para Desarrollo
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Sigue estos 6 pasos cuidadosamente para descargar, instalar y ejecutar el repositorio en tu propia PC.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 1. Clonar el repositorio
+Abre tu terminal en la carpeta donde guardas tus proyectos (por ejemplo `htdocs` si usas Xampp) y escribe:
+```bash
+git clone https://github.com/Andew14/voko-inventory-system.git
+cd voko-inventory-system
+```
 
-## Laravel Sponsors
+### 2. Instalar dependencias del Backend (Vendor)
+Laravel necesita descargar los paquetes base que lo hacen funcionar. Digita:
+```bash
+composer install
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 3. Configurar tu entorno local (.env)
+Tenemos un archivo de ejemplo (plantilla) con la estructura segura. Deben hacer una copia para su uso personal y llamarlo `.env`:
+- En Windows: `copy .env.example .env`
+- En Mac/Linux: `cp .env.example .env`
 
-### Premium Partners
+A continuación, abre ese nuevo archivo `.env` que acabas de crear con tu editor de texto. Por conveniencia, **utilizaremos SQLite** para no tener que configurar MySQL. Asegúrate de modificar la conexión a bases de datos y borrar los demás valores de conexión que venían por default para que quede de la siguiente forma:
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+```env
+DB_CONNECTION=sqlite
+# Las siguientes líneas deben quedar completamente vacías, o borrarlas temporalmente:
+# DB_HOST=
+# DB_PORT=
+# DB_DATABASE=
+# DB_USERNAME=
+# DB_PASSWORD=
+```
 
-## Contributing
+### 4. Generar la Llave Criptográfica Maestra
+Para que los inicios de sesión de los usuarios estén protegidos y encriptados, genera la llave individual de la aplicación corriendo:
+```bash
+php artisan key:generate
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 5. Generar Base de Datos e inyectar Datos de Prueba
+Es momento de crear las tablas vacías e inyectaremos tres productos ficticios para poder interactuar junto a dos cuentas listas para logeo:
+```bash
+php artisan migrate --seed
+```
+*(Si te pregunta si deseas crear la base de datos sqlite físicamente, pulsa `Y` "Sí")*
 
-## Code of Conduct
+### 6. Levantar Sistema
+¡Todo listo! Para correr tu servidor web de pruebas, solo digite finalmente:
+```bash
+php artisan serve
+```
+El sistema estará en vivo en tu navegador en: `http://127.0.0.1:8000`
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+## 🔒 Credenciales de Acceso Temporales
+Si corriste la directriz `--seed` exitosamente en el paso 5, usa estas cuentas automáticas para testear nuestro sistema:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+| Rol de Usuario | Email | Contraseña |
+| --- | --- | --- |
+| **Administrador general** | `admin@voko.com` | `password` |
+| **Operador de Bodega** | `operador@voko.com` | `password` |
 
-## License
+*(Recuerda que el Administrativo tiene vistas completas y permisos de Borrado al inventario crudo, y el Operativo de Bodega es puramente enfocado al registro transaccional visualizando sus propias adiciones).*
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 🧪 Pruebas Unitarias Aisladas (TDD)
+Este repositorio fue refactorizado usando **Metodologías en Base a Pruebas (TDD)** y consta actualmente con ~27 pruebas automatizadas de Calidad en base a la lógica de succión (Race Condition Prevention), Transacciones Atomizadas (`DB::transaction`) y cruce de datos sobre el servicio nativo (`InventoryMovementService`).
+
+Para corroborar a título propio que la red matemática y de negocio funciona impecablemente (y obtener nuestro chequeo de aprobación del QA Engineer), digita en terminal:
+```bash
+php artisan test
+```
+
+---
+*Desarrollado con ❤️ por @Andew14 para la Comunidad Académica Laravel.*
